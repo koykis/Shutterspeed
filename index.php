@@ -40,7 +40,7 @@ if(like() == true && auth() == true && isset($_GET['page'])){
  */
 
 if(like() == true && auth() == true && !isset($_GET['page'])){
-	//$count = countParticipations('nutella_filos_participation', userID());
+	//$count = countParticipations('db_table', userID());
 	
 	/*if($count > 0)} $page = 'congrats'; }else{*/$page = 'game';//}
 	
