@@ -1,0 +1,217 @@
+@charset "utf-8";
+/* GENERAL STYLES */
+
+@import 'reset.css';
+
+@import 'mCustomScrollbar.css';
+
+@font-face {
+    font-family: '???';
+    src: url('fonts/???.eot');
+    src: url('fonts/???.eot?#iefix') format('embedded-opentype'),
+         url('fonts/???.woff') format('woff'),
+         url('fonts/???.ttf') format('truetype'),
+         url('fonts/???.svg#dinpro-regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ".";
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+
+.clearfix:after {
+		clear: both;
+}
+
+.clearfix {
+		zoom: 1; /* IE < 8 */
+}
+
+.fl{
+	float:left;
+}
+
+.fr{
+	float:right;
+}
+
+.cb{
+	clear:both;
+}
+
+.oh{
+	overflow:hidden;
+}
+
+.sep{
+	height:30px;
+	width:805px;
+}
+
+body {
+	width: 807px;
+	background: white;
+	font-family: pf_catalogregular;
+}
+
+h1 {
+	font-size: 36pt;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align:center;
+}
+
+h2{
+	font-size: 30pt;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+h3{
+	font-size: 26pt;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+h4{
+	font-size: 20pt;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+h5{
+	font-size: 14pt;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+p{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+strong {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; /* Placeholder for bold font */
+}
+
+em {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; /* Placeholder for italic font */
+}
+
+#terms p a {
+	font-family: inherit;
+	font-size: 16px;
+	color: red;
+	text-decoration: none;
+}
+
+/* Error Message */
+
+#error {
+	position: absolute;
+	z-index: 20;
+	top: 30px;
+	right: 30px;
+	padding: 10px;
+	border-radius: 6px;
+	border: white 2px solid;
+	background: #C00;
+	max-width: 250px;
+}
+
+	#error p {
+		text-align: center;
+		color: #F6F6F6;
+		font-size:16px;
+		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	}
+
+
+/* Loading Screen */
+
+#loading {
+	width: 807px;
+	height: 100%;
+	position: absolute;
+	z-index: 100;
+	background: url(../img/px.png) repeat;
+}
+
+	#loading img {
+		padding: 100px;
+	}
+
+/* Terms / FAQ Page */
+
+#termswrapper {
+	padding: 20px;
+}
+
+#termswrapper p {
+	font-family: dinpro-regular;
+	font-size: 14px;
+	color: black;
+	margin: 5px 0px;
+}
+
+#termswrapper h3 {
+	font-family: dinpro-regular;
+	font-size: 24px;
+	text-align: left;
+	margin: 10px 4px;
+	color: #900;
+}
+
+#termswrapper h4 {
+	font-family: dinpro-regular;
+	font-size: 18px;
+	text-align: left;
+	font-style: italic;
+	font-weight: 600;
+	margin: 4px 2px;
+	color: #900;
+}
+
+/* LIKE PAGE */
+
+#likewrapper {
+	width: 100%;
+	height: 1069px;
+	background: url(../img/pages/1-like-page.jpg) center top no-repeat;
+}
+
+
+
+/* AUTH PAGE */
+
+#authwrapper {
+	width: 100%;
+	height: 1069px;
+	background: url(../img/pages/2-allow-page.jpg) center top no-repeat;
+}
+
+#authbtn {
+	margin-left: 40%;
+	padding-top: 200px;
+}
+
+	#login {
+		cursor: pointer;
+	}
+	
+
+/* GAME PAGE */
+
+#gamewrapper {
+	width: 100%;
+	height: 1069px;
+	background: url(../img/pages/2-page.jpg) center top no-repeat;
+}
+
+
+
+
