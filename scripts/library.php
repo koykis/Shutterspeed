@@ -14,8 +14,8 @@ date_default_timezone_set('Europe/Athens');
 include_once "facebook.php";
 
 $conf = array(
-  'appId'        => "497542136989202",
-	'secret'       => "18f1c41c995175e8ba3beea3b15b6e25",
+	'appId'        => "543856462316816",
+	'secret'       => "4248d72764de45b33c9d89eda33a0943",
 	'redirect_uri' => "https://www.facebook.com/testtpage/app_497542136989202",
 	'scope'        => "user_likes , publish_stream , photo_upload  , email",
 	'cookie'       => true,
@@ -52,24 +52,6 @@ if($fb->getUser() != 0){
 
 if(!strstr($_SERVER['HTTP_REFERER'], 'teamzero')){
 	$_SESSION['signed_request'] = $fb->getSignedRequest();
-}
-
-/**
- * The ptRedirect function redirects the user from the apps.facebook.com URL to the page tab. If you don't need it, remove it from the header.php file.
- * Input variables  : $url (string | the URL of the page tab we want the user redirected to)
- * Output variables :	NONE.
- * 
- */
-
-function ptRedirect($url){
-	$ref  = $_SERVER["HTTP_REFERER"];
-	$link = substr($ref, 0, 12);
-	
-	if( $link == 'https://apps' OR $link == 'http://apps.' )
-	{
-	  echo "<script>window.top.location.href  = '". $url . "' </script>";
-	  exit;
-	}
 }
 
 /**
@@ -132,6 +114,25 @@ function auth() {
 }
 
 /**
+ * The likeCheck function checks if the user likes.
+ * Input variables  : $page (int | the ID of the page we want the user to like... or not).
+ * Output variables :	$like_conf (bool | true if user likes the page / false if not ).
+ * 
+ * WARNING: To have this function work, you need to have the user_likes permission signed from the user.
+ */
+
+function likeCheck($page){
+	
+	$likes =  $fb->api(array(
+		"method"    => "fql.query",
+		"query"     => "select uid from page_fan where uid=".userID()." and page_id=".$page
+	));
+	$like_conf = sizeof($likes) == 1 ? true : false;
+	return $like_conf;
+	
+}
+
+/**
  * The insertDB function is used to store information we need into our database for faster access and to generate
  * less traffic with the facebook API.
  * Input variables  : $table (string | The table name for the information to be stored).
@@ -140,7 +141,7 @@ function auth() {
  * Output variables :	$inserted (bool | true if the operation succeded / false if not).
  *
  * WARNING(1): User information stored from Facebook's database should not be used for commercial purposes, since it is illegal.
- * WARNING(2): Images can but SHOULD NOT be stored in databases since they make it too heavy and slow.
+ * WARNING(2): Images can, but SHOULD NOT be stored in databases since they make it too heavy and slow.
  * 
  */
 
