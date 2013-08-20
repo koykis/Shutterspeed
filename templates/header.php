@@ -1,4 +1,4 @@
-<?php  
+<?php	
 	ptRedirect('http://www.facebook.com/page/app_id');
 ?>
 <!DOCTYPE html>

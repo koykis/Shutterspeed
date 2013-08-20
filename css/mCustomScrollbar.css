@@ -4,7 +4,7 @@
 /* basic scrollbar styling */
 /* vertical scrollbar */
 .mCSB_container{
-  width:auto;
+	width:auto;
 	margin-right:30px;
 	overflow:hidden;
 }

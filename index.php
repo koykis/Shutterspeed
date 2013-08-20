@@ -13,7 +13,7 @@ include 'templates/header.php';
  */
 
 if(like() == false){
-  include 'templates/like.php';
+	include 'templates/like.php';
 }
 
 /**
@@ -40,7 +40,7 @@ if(like() == true && auth() == true && isset($_GET['page'])){
  */
 
 if(like() == true && auth() == true && !isset($_GET['page'])){
-	//$count = countParticipations('db_table', userID());
+	//$count = countParticipations('nutella_filos_participation', userID());
 	
 	/*if($count > 0)} $page = 'congrats'; }else{*/$page = 'game';//}
 	

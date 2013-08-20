@@ -1,4 +1,12 @@
 /* 
+    Document   : reset
+    Created on : Apr 7, 2011, 12:43:51 AM
+    Author     : Florian
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
@@ -11,7 +19,7 @@ small, strike, strong, sub, sup, tt, var,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-  margin: 0;
+	margin: 0;
 	padding: 0;
 	border: 0;
 	outline: 0;

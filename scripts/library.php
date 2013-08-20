@@ -14,9 +14,9 @@ date_default_timezone_set('Europe/Athens');
 include_once "facebook.php";
 
 $conf = array(
-  'appId'        => "497542136989202",
-	'secret'       => "18f1c41c995175e8ba3beea3b15b6e25",
-	'redirect_uri' => "https://www.facebook.com/testtpage/app_497542136989202",
+	'appId'        => "XXXXXXXX",
+	'secret'       => "XXXXXXXXXXXXXXXXXXXXXX",
+	'redirect_uri' => "https://www.facebook.com/XXXXXXXXXXXXXX",
 	'scope'        => "user_likes , publish_stream , photo_upload  , email",
 	'cookie'       => true,
 	'fileUpload'   => true
@@ -26,9 +26,9 @@ $fb = new Facebook($conf);
 
 $data = $fb->getSignedRequest();
 
-$username='teamzero';
-$password='oGwl1GhVeQVQYqZD';
-$host='mysql:host=localhost;port=3307;dbname=facebook;';
+$username='xxxxxxxxx';
+$password='xxxxxxxxxxxxxx';
+$host='mysql:host=localhost;port=3307;dbname=xxxxxxxx;';
 try{
 	$conn = new PDO($host, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -52,24 +52,6 @@ if($fb->getUser() != 0){
 
 if(!strstr($_SERVER['HTTP_REFERER'], 'teamzero')){
 	$_SESSION['signed_request'] = $fb->getSignedRequest();
-}
-
-/**
- * The ptRedirect function redirects the user from the apps.facebook.com URL to the page tab. If you don't need it, remove it from the header.php file.
- * Input variables  : $url (string | the URL of the page tab we want the user redirected to)
- * Output variables :	NONE.
- * 
- */
-
-function ptRedirect($url){
-	$ref  = $_SERVER["HTTP_REFERER"];
-	$link = substr($ref, 0, 12);
-	
-	if( $link == 'https://apps' OR $link == 'http://apps.' )
-	{
-	  echo "<script>window.top.location.href  = '". $url . "' </script>";
-	  exit;
-	}
 }
 
 /**
@@ -192,6 +174,31 @@ function countParticipations($table, $user){
 	}
 	
 	return $count;
+}
+
+/**
+ * The countInvites function fetches an array with the rows of the participations table where the current user's id is present IN THE CALLED COLUMN.
+ * It then returns the result. Usefull for apps where the friend needs to recieve and respond to a message.
+ * Input variables  : $table (string | The table name for the information to be stored).
+ *										$user (int | The logged in user's Facebook ID).
+ * Output variables :	$info (int | the table with all the data about the invitations).
+ * 
+ */
+
+
+function countInvites($table, $user){
+	global $conn;
+	
+	try{
+	  $select = "SELECT * FROM ".$table." WHERE call_fid = ? AND call_response = NULL";
+	  $query = $conn->prepare($select);
+	  $query->execute(array($user));
+		$info = $query->fetchAll();
+	}catch(PDOException $e){
+	    echo 'ERROR: '.$e->getMessage();
+	}
+	
+	return $info;
 }
 
 /**
@@ -389,6 +396,7 @@ function personalCode(){
 	
 
 function get_bitly_short_url($url, $login, $appkey) {
+
 	$ch = curl_init('http://api.bitly.com/v3/shorten?login='.$login.'&apiKey='.$appkey.'&longUrl='.$url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	 
@@ -420,6 +428,24 @@ function fbShare($link, $title, $picURL, $message, $caption, $description){
 								);
 	
 	$fb->api(userID().'/feed', 'post', $parameters);
+}
+
+/**
+ * The getUserData function fetches an array with the data of a user using the app's access token.
+ * Then returns it.
+ * Input variables  : $id (int | The Facebook ID of the User we want to look up).
+ * Output variables :	$user (array | All the data from the user's Facebook profile).
+ * 
+ */
+
+function getUserData($id){
+	global $fb;
+	
+	$graph_url = "https://graph.facebook.com/".$id."?access_token=".$fb->getAccessToken();
+	$apiCon = file_get_contents($graph_url);
+	$user = json_decode($apiCon, true);
+	
+	return $user;
 }
 
 ?>

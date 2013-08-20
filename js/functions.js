@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  
+	
 	$('#loading').fadeOut(300);
 	
 });
@@ -171,4 +171,23 @@ function appRequestReturn(text, friends){
 function returnID(data){
 	friendID = data.to;
 	$('#returnedData').html('<img src="http://graph.facebook.com/'+friendID+'/picture" class="'+friendID+'" />');
+}
+
+/**
+ * The buildMap function builds a Google Map inside the appointed container.
+ * appRequestReturn Input variables : lat (decimal | Latitude of the spot we want to focus on the map).
+ *																		long (decimal | Longditude of the spot we want to focus on the map).
+ *																		container (string | The ID of the element we want the map to appear in).
+ * Output variables :	NONE.
+ *
+ */
+
+function buildMap(lat,long,container)
+{
+  var mapProp = {
+    center: new google.maps.LatLng(lat,long),
+    zoom: 14,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById(container),mapProp);
 }
