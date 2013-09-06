@@ -20,7 +20,7 @@ if(like() == false){
  * Chekcs is the user has authorized the app and if not, displays and stops at the login gate.
  */
 
-if($_SESSION['like'] == true && auth() == false){
+if(like() == true && auth() == false){
 	include 'templates/auth.php';
 }
 
@@ -40,7 +40,7 @@ if(like() == true && auth() == true && isset($_GET['page'])){
  */
 
 if(like() == true && auth() == true && !isset($_GET['page'])){
-	//$count = countParticipations('nutella_filos_participation', userID());
+	//$count = countParticipations('', userID());
 	
 	/*if($count > 0)} $page = 'congrats'; }else{*/$page = 'game';//}
 	
