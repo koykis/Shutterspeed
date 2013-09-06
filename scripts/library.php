@@ -82,16 +82,60 @@ function userID(){
 
 function like() {
 	global $fb;
-	$like = false;
+	$like = true;
 	
-	$like_status = $_SESSION['signed_request']["page"]["liked"];
-	 
-	if($like_status){
-		$like = true;
+	if(!$_SESSION['like']){
+		$like_status = $_SESSION['signed_request']["page"]["liked"];
+		 
+		if($like_status){
+			$like = true;
+		}else{
+			$like = false;
+		}
 	}
 	
-	return $like;
+	$_SESSION['like'] = $like;
 	
+}
+
+/**
+ * The extlike function (named after external like) checks if the user likes two pages (can be easily modified for more)
+ * and then sets a SESSION variable to true. Next time he comes back to our app the ckeck will run again.
+ * At the time of the last update, for this function to work, the index.php file needs some tweaks.
+ *
+ * WARNING: To actually be able to check if the user likes those pages using FQL queries, you must authenticate him first.
+ *
+ * Input variables  : $page1 (string | The ID of the first page we want our user to like).
+ *										$page2 (string | The ID of the second page we want our user to like).
+ * Output variables :	$_SESSION['like'] (bool | true if user has liked both pages / false if not ).
+ * 
+ */
+ 
+function extlike($page1, $page2) {
+	global $fb;
+	$like = true;
+	
+if(!isset($_SESSION['like']) || $_SESSION['like'] == false){
+	$first_page = $fb->api(array(
+	 "method"    => "fql.query",
+	 "query"     => "select uid from page_fan where uid=".$fb->getUser()." and page_id=".$page1
+	));
+	$first_page_like = sizeof($first_page) == 1 ? true : false;
+
+	$second_page =  $fb->api(array(
+	 "method"    => "fql.query",
+	 "query"     => "select uid from page_fan where uid=".$fb->getUser()." and page_id=".$page2
+	));
+	$second_page_like = sizeof($second_page) == 1 ? true : false;
+		
+	if($first_page_like == true && $second_page_like == true){
+		$like = true;
+	} else {
+		$like = false;
+	}
+}
+	$_SESSION['like'] = $like;
+	return $_SESSION['like'];
 }
 
 /**
@@ -412,11 +456,15 @@ function get_bitly_short_url($url, $login, $appkey) {
  *										$picURL (string | The URL of the picture to share (200x200 pixels)).
  *										$message (string | The message you want to appear over the share box, looks like the user wrote it).
  *										$caption (string | A short text to give an idea of what the user shared).
+ *										$page (string | The ID of the page that hosts the place to tag someone).
+ *										$friend (string | The ID (or IDs) of the user (or users) to tag).
  *										$description (string | A longer explanation about what this link is about).
  * Output variables :	NONE (The shared link appears on the user's timeline).
  */
  
-function fbShare($link, $title, $picURL, $message, $caption, $description){
+function fbShare($link, $title, $picURL, $message, $caption, $page, $friend, $description){
+	global $fb;
+	
 	$parameters = array(
 									'link' => $link,
 									'name' => $title,
@@ -424,10 +472,14 @@ function fbShare($link, $title, $picURL, $message, $caption, $description){
 									'message' => $message,
 									'caption' => $caption,
 									'description' => $description,
+									'place' => $page,
+									'tags' => $friend,
 									'access_token' => $fb->getAccessToken()
 								);
 	
-	$fb->api(userID().'/feed', 'post', $parameters);
+	$data = $fb->api(userID().'/feed', 'post', $parameters);
+	
+	return $data;
 }
 
 /**
@@ -446,6 +498,24 @@ function getUserData($id){
 	$user = json_decode($apiCon, true);
 	
 	return $user;
+}
+
+/**
+ * The wallpost function uploads a picture at the user's wall.
+ * Input variables  : $id (int | The Facebook ID of the User we want to look up).
+ * Output variables :	$data (array | Facebook's response with the error or success of upload).
+ * 
+ */
+
+function wallpost($url){
+	global $fb;
+	
+	$fb->setFileUploadSupport(true);
+	$args = array('message' => '', 'accessToken' => $fb->getAccessToken());
+	$args['image'] = '@'.$url;
+	$data = $fb->api('/me/photos', 'post', $args);
+	
+	return $data;
 }
 
 ?>

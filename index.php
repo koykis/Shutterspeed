@@ -20,7 +20,7 @@ if(like() == false){
  * Chekcs is the user has authorized the app and if not, displays and stops at the login gate.
  */
 
-if(like() == true && auth() == false){
+if($_SESSION['like'] == true && auth() == false){
 	include 'templates/auth.php';
 }
 
