@@ -17,7 +17,7 @@ if(like() == false){
 }
 
 /**
- * Chekcs is the user has authorized the app and if not, displays and stops at the login gate.
+ * Chekcs if the user has authorized the app and if not, displays and stops at the login gate.
  */
 
 if(like() == true && auth() == false){
